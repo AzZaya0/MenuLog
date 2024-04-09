@@ -1,8 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:menu_log/firebase_options.dart';
+import 'package:menu_log/src/view/auth/login.dart';
 
 import 'helper/theme_helper.dart';
 import 'multi_bloc_provider.dart';
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeHelper()
               .generateAppTheme(context, AppThemeState.app_theme_light),
           debugShowCheckedModeBanner: false,
+          home: const LoginPage(),
         );
       },
     );
