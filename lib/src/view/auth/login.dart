@@ -21,14 +21,6 @@ class LoginPage extends StatelessWidget {
               context.read<LoginBloc>().add(OnGoogleLogin(context: context));
             },
           ),
-          Gap(20),
-          CustomButton(
-            text: 'Google logout',
-            textColor: AppColor.white,
-            onTap: () {
-              context.read<LoginBloc>().add(OnGoogleLogout());
-            },
-          )
         ],
       ),
     );
