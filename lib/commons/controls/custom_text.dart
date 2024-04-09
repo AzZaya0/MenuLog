@@ -12,6 +12,7 @@ class CustomText extends StatelessWidget {
     this.fontName,
     this.color,
     this.size,
+    this.letterSpacing,
     this.maxLines,
     this.onTap,
     this.fontWeight,
@@ -23,6 +24,7 @@ class CustomText extends StatelessWidget {
   final String? fontName;
   final Color? color;
   final double? size;
+  final double? letterSpacing;
   final int? maxLines;
   final void Function()? onTap;
   final FontWeight? fontWeight;
@@ -33,6 +35,7 @@ class CustomText extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
+        
         text,
         maxLines: maxLines ?? 7,
         style: fontName == AppFonts.poppins
@@ -60,6 +63,8 @@ class CustomText extends StatelessWidget {
                         decorationColor: Colors.blue,
                         fontWeight: fontWeight)
                     : TextStyle(
+                      
+                        letterSpacing: letterSpacing ?? 0,
                         color: color ?? Theme.of(context).primaryColor,
                         fontSize: size ?? 18,
                         fontStyle: fontStyle,
