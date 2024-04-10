@@ -16,6 +16,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial()) {
     on<OnGoogleLogin>(onLoginWithGoogle);
     on<OnGoogleLogout>(onLogoutGoogle);
+    on<OnEmailLogin>(onEmailLogin);
+    on<OnEmailSignUp>(onEmailSignUp);
   }
 
   Future<UserCredential?> onLoginWithGoogle(
@@ -55,5 +57,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         context,
         MaterialPageRoute(
             builder: (_) => HomePage(userCredential: userCredential)));
+  }
+
+  FutureOr<void> onEmailLogin(
+      OnEmailLogin event, Emitter<LoginState> emit) async {
+    try {
+      var userCredential = await _auth.signInWithEmailAndPassword(
+          email: event.email, password: event.password);
+      print(userCredential);
+      await toHomePage(event.context, userCredential);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
+  FutureOr<void> onEmailSignUp(
+      OnEmailSignUp event, Emitter<LoginState> emit) async {
+    try {
+      var userCredential = await _auth.createUserWithEmailAndPassword(
+          email: event.email, password: event.password);
+      print(userCredential);
+      await toHomePage(event.context, userCredential);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 }

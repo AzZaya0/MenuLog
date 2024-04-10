@@ -59,7 +59,9 @@ class LoginPage extends StatelessWidget {
             text: 'Login',
             textColor: AppColor.white,
             onTap: () {
-              null;
+              context.read<LoginBloc>().add(OnEmailLogin(context,
+                  email: emailController.text.trim(),
+                  password: passController.text.trim()));
             },
           ),
           const Gap(14),

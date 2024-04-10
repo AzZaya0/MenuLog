@@ -27,7 +27,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: CustomText(text: 'Signup'),
+        title: CustomText(text: 'SignUp'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +70,13 @@ class _SignUpState extends State<SignUp> {
             text: 'Signup',
             textColor: AppColor.white,
             onTap: () {
-              null;
+              if (passController.text.trim() ==
+                  confirmPassController.text.trim()) {
+                context.read<LoginBloc>().add(OnEmailSignUp(
+                    context: context,
+                    email: emailController.text.trim(),
+                    password: confirmPassController.text.trim()));
+              } else {}
             },
           ),
           const Gap(14),
@@ -97,10 +103,11 @@ class _SignUpState extends State<SignUp> {
               ),
               CustomText(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (builder) {
-                    return LoginPage();
-                  }));
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (builder) {
+                  //   return LoginPage();
+                  // }));
+                  Navigator.pop(context);
                 },
                 letterSpacing: 1.3,
                 text: 'Login',
