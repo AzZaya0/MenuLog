@@ -19,6 +19,7 @@ class LoginPage extends StatelessWidget {
     final passController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: CustomText(
           letterSpacing: 3,
           text: 'Login',
