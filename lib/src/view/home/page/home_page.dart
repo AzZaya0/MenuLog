@@ -35,13 +35,16 @@ class HomePage extends StatelessWidget {
               ]),
         ),
         SliverGrid(
+
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 0.90,
             crossAxisCount: 2,
             crossAxisSpacing: 10.0,
+
           ),
           delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
+              SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
