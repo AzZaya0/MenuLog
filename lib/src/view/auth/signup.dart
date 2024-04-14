@@ -9,7 +9,7 @@ import 'package:menu_log/utils/extension.dart';
 import '../../../commons/controls/custom_button.dart';
 import '../../../commons/controls/custom_textfield.dart';
 import '../../../utils/app_color.dart';
-import '../../controller/login/login_bloc.dart';
+import '../../repository/login/login_bloc.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

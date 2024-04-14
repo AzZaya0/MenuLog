@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -11,9 +14,9 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  LoginBloc() : super(LoginInitial()) {
+  final FirebaseAuth _auth;
+  final GoogleSignIn _googleSignIn;
+  LoginBloc(this._auth, this._googleSignIn) : super(LoginInitial()) {
     on<OnGoogleLogin>(onLoginWithGoogle);
     on<OnGoogleLogout>(onLogoutGoogle);
     on<OnEmailLogin>(onEmailLogin);
@@ -64,10 +67,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
-      print(userCredential);
+      if (kDebugMode) {
+        print(userCredential);
+      }
+
+      FirebaseFirestore.instance
+          .collection('User')
+          .doc(userCredential.user?.email)
+          .set({
+        "email": userCredential.user?.email,
+        "name": userCredential.user?.displayName,
+      });
       await toHomePage(event.context, userCredential);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

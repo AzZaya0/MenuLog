@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:menu_log/commons/controls/custom_button.dart';
 import 'package:menu_log/commons/controls/custom_text.dart';
 import 'package:menu_log/commons/controls/custom_textfield.dart';
-import 'package:menu_log/src/controller/login/login_bloc.dart';
+import 'package:menu_log/src/repository/login/login_bloc.dart';
 import 'package:menu_log/src/view/auth/signup.dart';
 import 'package:menu_log/utils/app_color.dart';
 import 'package:menu_log/utils/extension.dart';
