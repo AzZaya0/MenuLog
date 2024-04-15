@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:menu_log/commons/controls/custom_button.dart';
 import 'package:menu_log/commons/controls/custom_text.dart';
-import 'package:menu_log/commons/controls/custom_textfield.dart';
-import 'package:menu_log/src/repository/login/login_bloc.dart';
-import 'package:menu_log/src/view/auth/signup.dart';
-import 'package:menu_log/utils/app_color.dart';
+import 'package:menu_log/src/view/auth/login.dart';
 import 'package:menu_log/utils/extension.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../../../commons/controls/custom_button.dart';
+import '../../../commons/controls/custom_textfield.dart';
+import '../../../utils/app_color.dart';
+import '../../repository/login/login_bloc.dart';
+
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    context.read<LoginBloc>().add(OnCheckLogin(context: context));
-    super.initState();
-  }
-
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
     final passController = TextEditingController();
+    final confirmPassController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: CustomText(
-          letterSpacing: 3,
-          text: 'Login',
-          size: 28,
-          fontWeight: FontWeight.bold,
-        ),
+        title: CustomText(text: 'SignUp'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -64,19 +55,32 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           const Gap(18),
+          CustomTextField(
+            controller: confirmPassController,
+            hintText: 'confirm your password',
+            obscureText: true,
+            borderSide: BorderSide(
+              color: AppColor.black,
+            ),
+          ),
+          const Gap(18),
           const Gap(10),
           CustomButton(
             radius: 18,
-            text: 'Login',
+            text: 'Signup',
             textColor: AppColor.white,
             onTap: () {
-              context.read<LoginBloc>().add(OnEmailLogin(context,
-                  email: emailController.text.trim(),
-                  password: passController.text.trim()));
+              if (passController.text.trim() ==
+                  confirmPassController.text.trim()) {
+                context.read<LoginBloc>().add(OnEmailSignUp(
+                    context: context,
+                    email: emailController.text.trim(),
+                    password: confirmPassController.text.trim()));
+              } else {}
             },
           ),
           const Gap(14),
-          Center(child: CustomText(text: 'or continue with')),
+          Center(child: CustomText(text: 'or signup with')),
           Center(
             child: GestureDetector(
               onTap: () {
@@ -93,19 +97,20 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               CustomText(
                 letterSpacing: 2,
-                text: 'Don\'t have an account? ',
+                text: 'Already have an account? ',
                 fontWeight: FontWeight.w600,
                 color: AppColor.greyText,
               ),
               CustomText(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (builder) {
-                    return SignUp();
-                  }));
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (builder) {
+                  //   return LoginPage();
+                  // }));
+                  Navigator.pop(context);
                 },
                 letterSpacing: 1.3,
-                text: 'Signup',
+                text: 'Login',
                 color: Colors.green.shade300,
                 fontWeight: FontWeight.w700,
               )

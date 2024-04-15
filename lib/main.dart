@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:menu_log/firebase_options.dart';
+import 'package:menu_log/service_locator.dart';
 import 'package:menu_log/src/view/auth/login.dart';
 
 import 'helper/theme_helper.dart';
@@ -15,6 +16,7 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  setupLocators();
   runApp(const MultiBlocProviderClass(MyApp()));
 }
 
