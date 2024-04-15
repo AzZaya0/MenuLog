@@ -16,7 +16,17 @@ class OnGoogleLogin extends LoginEvent {
   List<Object> get props => [context];
 }
 
-class OnGoogleLogout extends LoginEvent {}
+class OnGoogleLogout extends LoginEvent {
+  final BuildContext context;
+
+  OnGoogleLogout({required this.context});
+}
+
+class OnCheckLogin extends LoginEvent {
+  final BuildContext context;
+
+  OnCheckLogin({required this.context});
+}
 
 class OnEmailLogin extends LoginEvent {
   String email;
