@@ -22,7 +22,7 @@ class MultiBlocProviderClass extends StatelessWidget {
         create: (_) => ItemsCubit(sl()),
       ),
       BlocProvider<CartCubit>(
-        create: (_) => CartCubit(),
+        create: (_) => CartCubit(sl()),
       ),
     ], child: child);
   }

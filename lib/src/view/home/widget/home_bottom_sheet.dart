@@ -5,19 +5,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:menu_log/commons/controls/custom_button.dart';
 import 'package:menu_log/commons/controls/custom_text.dart';
+import 'package:menu_log/commons/controls/custom_textfield.dart';
 import 'package:menu_log/src/repository/cart/cart_cubit.dart';
 import 'package:menu_log/utils/app_color.dart';
 
-class HomeBottomSheet extends StatelessWidget {
+class HomeBottomSheet extends StatefulWidget {
   const HomeBottomSheet({
     super.key,
   });
 
   @override
+  State<HomeBottomSheet> createState() => _HomeBottomSheetState();
+}
+
+class _HomeBottomSheetState extends State<HomeBottomSheet> {
+  late TextEditingController tableNumberController;
+  @override
+  void initState() {
+    tableNumberController = TextEditingController();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        openBottomSheet(context);
+        openBottomSheet(context, tableNumberController);
       },
       child: Container(
         height: 50,
@@ -47,7 +60,10 @@ class HomeBottomSheet extends StatelessWidget {
     );
   }
 
-  void openBottomSheet(BuildContext context) {
+  void openBottomSheet(
+    BuildContext context,
+    TextEditingController tableNumberController,
+  ) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -98,6 +114,37 @@ class HomeBottomSheet extends StatelessWidget {
                 Row(
                   children: [
                     CustomButton(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // Create an AlertDialog
+                            return AlertDialog(
+                              title: const Text('Confirmation'),
+                              content: CustomTextField(
+                                  controller: tableNumberController),
+                              actions: [
+                                // Add buttons to the dialog
+                                TextButton(
+                                  onPressed: () {
+                                    // Dismiss the dialog when the "Cancel" button is pressed
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<CartCubit>().confirmOrder(
+                                        tableNumberController.text.trim());
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Confirm'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       width: 220.h,
                       text: 'Confirm Order',
                       textColor: AppColor.white,
