@@ -25,4 +25,10 @@ class CartCubit extends Cubit<CartState> {
       print(cartList);
     }
   }
+
+  Future removeAll() async {
+    cartList.clear();
+    emit(AddToCart(number: Random().nextInt(100)));
+    print(cartList);
+  }
 }

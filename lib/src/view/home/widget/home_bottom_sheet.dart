@@ -104,6 +104,36 @@ class HomeBottomSheet extends StatelessWidget {
                     ),
                     Gap(10.h),
                     CustomButton(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // Create an AlertDialog
+                            return AlertDialog(
+                              title: const Text('Confirmation'),
+                              content: const Text(
+                                  'Are you sure you want to clear cart?'),
+                              actions: [
+                                // Add buttons to the dialog
+                                TextButton(
+                                  onPressed: () {
+                                    // Dismiss the dialog when the "Cancel" button is pressed
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<CartCubit>().removeAll();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Delete'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       width: 70.h,
                       color: Colors.red,
                       padding: const EdgeInsets.all(0),
