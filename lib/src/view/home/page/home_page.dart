@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_log/commons/controls/custom_text.dart';
 import 'package:menu_log/commons/controls/custom_textfield.dart';
 import 'package:menu_log/src/model/table_model.dart';
+import 'package:menu_log/src/repository/order_menu/order_menu_cubit.dart';
 import 'package:menu_log/src/repository/table/table_cubit.dart';
 import 'package:menu_log/src/view/menu/menu.dart';
 import 'package:menu_log/utils/extension.dart';
@@ -115,6 +116,15 @@ class _HomePageState extends State<HomePage> {
                   textColor: AppColor.white,
                   onTap: () {
                     context.read<LoginBloc>().add(OnGoogleLogout());
+                  },
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: CustomButton(
+                  text: 'CREATE MENU',
+                  textColor: AppColor.white,
+                  onTap: () {
+                    context.read<OrderMenuCubit>().createMenuTable();
                   },
                 ),
               )
