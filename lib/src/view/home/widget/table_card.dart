@@ -34,56 +34,49 @@ class _TableCardGridState extends State<TableCardGrid> {
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Stack(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                  return const MenuPage();
-                }));
-              },
-              child: Container(
-                  // width: 100,
-                  // height: 100,
-                  padding: EdgeInsets.all(5),
-                  // color: AppColor.forumTimeText,
-                  child: Column(
-                    children: [
-                      Image.network(
-                        'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700',
-                        height: 100.h,
-                        width: 200.h,
-                        fit: BoxFit.cover,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  fontName: AppFonts.poppins,
-                                  fontWeight: FontWeight.w500,
-                                  size: 14.h,
-                                  text: widget.listOfTables?[index].name
-                                          .toString() ??
-                                      ''),
-                              CustomText(
-                                  size: 12.h,
-                                  text: widget.listOfTables?[index].price
-                                          .toString() ??
-                                      ''),
-                              CustomText(
-                                  size: 12.h,
-                                  text: widget.listOfTables?[index].category
-                                          .toString() ??
-                                      '')
-                            ],
-                          ),
-                          //add button here
-                        ],
-                      )
-                    ],
-                  )),
-            ),
+            Container(
+                // width: 100,
+                // height: 100,
+                padding: EdgeInsets.all(5),
+                // color: AppColor.forumTimeText,
+                child: Column(
+                  children: [
+                    Image.network(
+                      'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700',
+                      height: 100.h,
+                      width: 200.h,
+                      fit: BoxFit.cover,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                                fontName: AppFonts.poppins,
+                                fontWeight: FontWeight.w500,
+                                size: 14.h,
+                                text: widget.listOfTables?[index].name
+                                        .toString() ??
+                                    ''),
+                            CustomText(
+                                size: 12.h,
+                                text: widget.listOfTables?[index].price
+                                        .toString() ??
+                                    ''),
+                            CustomText(
+                                size: 12.h,
+                                text: widget.listOfTables?[index].category
+                                        .toString() ??
+                                    '')
+                          ],
+                        ),
+                        //add button here
+                      ],
+                    )
+                  ],
+                )),
             Align(
               alignment: Alignment.bottomRight,
               child: IconButton(

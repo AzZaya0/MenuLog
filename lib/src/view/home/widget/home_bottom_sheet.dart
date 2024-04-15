@@ -122,6 +122,8 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
                             return AlertDialog(
                               title: const Text('Confirmation'),
                               content: CustomTextField(
+                                  borderSide: BorderSide(),
+                                  hintText: 'Enter the Table Number',
                                   controller: tableNumberController),
                               actions: [
                                 // Add buttons to the dialog

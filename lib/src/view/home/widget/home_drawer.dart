@@ -8,6 +8,8 @@ import 'package:menu_log/commons/controls/custom_text.dart';
 import 'package:menu_log/commons/controls/custom_textfield.dart';
 import 'package:menu_log/src/repository/items/items_cubit.dart';
 import 'package:menu_log/src/repository/login/login_bloc.dart';
+import 'package:menu_log/src/view/order/pages/current_order.dart';
+import 'package:menu_log/src/view/order/pages/order_history.dart';
 import 'package:menu_log/utils/app_color.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -42,58 +44,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
           children: [
             ListTile(
               onTap: () {
-                showDialog(
-                  context: context,
+                Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return AlertDialog(
-                      title: CustomText(text: 'Create Table'),
-                      content: SizedBox(
-                        height: 200.h,
-                        child: Column(
-                          children: [
-                            CustomTextField(
-                              controller: nameController,
-                              hintText: 'Item Name',
-                              borderSide: BorderSide(),
-                            ),
-                            Gap(10.h),
-                            CustomTextField(
-                              hintText: 'Item Price',
-                              controller: priceController,
-                              borderSide: BorderSide(),
-                            ),
-                            Gap(10.h),
-                            CustomTextField(
-                              hintText: 'Item Category',
-                              controller: categoriesController,
-                              borderSide: BorderSide(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        CustomButton(
-                          onTap: () {
-                            //
-
-                            context.read<ItemsCubit>().createItems(
-                                nameController.text.trim(),
-                                categoriesController.text.trim(),
-                                priceController.text.trim().toString());
-                            Navigator.pop(context);
-                          },
-                          text: 'Save',
-                          height: 50,
-                          width: 150,
-                          textColor: AppColor.white,
-                        )
-                      ],
-                    );
+                    return CurrentOrderPage();
                   },
-                );
+                ));
               },
-              title: CustomText(text: 'Add item to menu'),
+              title: CustomText(text: "Current Orders"),
             ),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return OrderHistoryPage();
+                  },
+                ));
+              },
+              title: CustomText(text: "Order History"),
+            ),
+            createItem(context),
             ListTile(
               title: CustomText(text: 'Log Out'),
               onTap: () {
@@ -104,6 +73,63 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ],
         ),
       ),
+    );
+  }
+
+  ListTile createItem(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: CustomText(text: 'Create Table'),
+              content: SizedBox(
+                height: 200.h,
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      controller: nameController,
+                      hintText: 'Item Name',
+                      borderSide: BorderSide(),
+                    ),
+                    Gap(10.h),
+                    CustomTextField(
+                      hintText: 'Item Price',
+                      controller: priceController,
+                      borderSide: BorderSide(),
+                    ),
+                    Gap(10.h),
+                    CustomTextField(
+                      hintText: 'Item Category',
+                      controller: categoriesController,
+                      borderSide: BorderSide(),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                CustomButton(
+                  onTap: () {
+                    //
+
+                    context.read<ItemsCubit>().createItems(
+                        nameController.text.trim(),
+                        categoriesController.text.trim(),
+                        priceController.text.trim().toString());
+                    Navigator.pop(context);
+                  },
+                  text: 'Save',
+                  height: 50,
+                  width: 150,
+                  textColor: AppColor.white,
+                )
+              ],
+            );
+          },
+        );
+      },
+      title: CustomText(text: 'Add item to menu'),
     );
   }
 }
