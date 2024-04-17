@@ -1,4 +1,5 @@
 // ignore: must_be_immutable
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,9 @@ import 'package:menu_log/src/repository/login/login_bloc.dart';
 import 'package:menu_log/src/view/order/pages/current_order.dart';
 import 'package:menu_log/src/view/order/pages/order_history.dart';
 import 'package:menu_log/utils/app_color.dart';
+import 'package:menu_log/utils/extension.dart';
+
+import '../../../repository/image_pick/cubit/image_picker_cubit.dart';
 
 class HomeDrawer extends StatefulWidget {
   HomeDrawer({
@@ -37,6 +41,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
   // TextEditingController tableNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    firebase_storage.FirebaseStorage myStorage =
+        firebase_storage.FirebaseStorage.instance;
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -105,6 +111,24 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       controller: categoriesController,
                       borderSide: BorderSide(),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        context.read<ImagePickerCubit>().pickImage();
+                      },
+                      child: Container(
+                        height: 13.h,
+                        child: const Icon(
+                          Icons.image,
+                          size: 20,
+                        ),
+                      ).addMargin(EdgeInsets.only(top: 40, bottom: 20)),
+                    ),
+                    CustomButton(
+                      onTap: () {
+                       
+                      },
+                      text: 'Upload',
+                    )
                   ],
                 ),
               ),
