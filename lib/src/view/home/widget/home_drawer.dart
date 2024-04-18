@@ -120,7 +120,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         child: const Icon(
                           Icons.image,
                           size: 20,
-                        ),
+                        ) ,
                       ).addMargin(EdgeInsets.only(top: 40, bottom: 20)),
                     ),
                     CustomButton(
