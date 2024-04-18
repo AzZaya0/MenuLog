@@ -18,7 +18,7 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
       final pickedFile = await picker.pickImage(
           source: ImageSource.gallery, imageQuality: 100);
       if (pickedFile != null) {
-        emit(ImagePickerState(myFile: File(pickedFile.path)));
+        emit(ImagePickerPicked(myFile: File(pickedFile.path)));
       } else {
         emit(ImagePickerInitial());
         if (kDebugMode) {
@@ -36,25 +36,27 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
   Future<String> uploadImage(File? file) async {
     if (file == null) {
       throw ArgumentError('File is null');
-    }
-    String filename = DateTime.now().millisecondsSinceEpoch.toString();
-    try {
-      firebase_storage.Reference reference =
-          myStorage.ref().child('foods/$filename.jpg');
+    } else {
+      String filename = DateTime.now().millisecondsSinceEpoch.toString();
+      try {
+        firebase_storage.Reference reference =
+            myStorage.ref().child('foods/$filename.jpg');
 
-      await reference.putFile(file);
-      String downloadUrl = await reference.getDownloadURL();
-      return downloadUrl;
-    } on firebase_storage.FirebaseException catch (e) {
-      if (kDebugMode) {
-        print('Firebase storage error: $e');
+        await reference.putFile(file);
+        String downloadUrl = await reference.getDownloadURL();
+
+        return downloadUrl;
+      } on firebase_storage.FirebaseException catch (e) {
+        if (kDebugMode) {
+          print('Firebase storage error: $e');
+        }
+        rethrow;
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error uploading image: $e');
+        }
+        return '';
       }
-      rethrow;
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error uploading image: $e');
-      }
-      rethrow;
     }
   }
 }

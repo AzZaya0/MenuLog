@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_log/src/model/item_model.dart';
+import 'package:menu_log/src/repository/image_pick/cubit/image_picker_cubit.dart';
 
 part 'items_state.dart';
 
@@ -14,12 +19,13 @@ class ItemsCubit extends Cubit<ItemsState> {
   final FirebaseFirestore _firestore;
 
   /// Create a new item and add it to the Firestore database.
-  Future<void> createItems(String name, String category, String price) async {
+  Future<void> createItems(
+      String name, String category, String price, String? image) async {
     await _firestore.collection('Menu').doc().set(
           ItemModel(
             name: name,
             category: category,
-            image: '',
+            image: image ?? '',
             price: price,
           ).toJson(),
         );

@@ -6,11 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import 'package:menu_log/commons/controls/custom_text.dart';
 import 'package:menu_log/src/model/item_model.dart';
 import 'package:menu_log/src/repository/cart/cart_cubit.dart';
-import 'package:menu_log/src/repository/image_pick/cubit/image_picker_cubit.dart';
 import 'package:menu_log/utils/app_color.dart';
 import 'package:menu_log/utils/string_constant.dart';
 
@@ -45,7 +43,9 @@ class _TableCardGridState extends State<TableCardGrid> {
                 child: Column(
                   children: [
                     Image.network(
-                      'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700',
+                      widget.listOfTables?[index].image == ''
+                          ? 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700'
+                          : widget.listOfTables?[index].image ?? '',
                       height: 100.h,
                       width: 200.h,
                       fit: BoxFit.cover,
@@ -73,7 +73,6 @@ class _TableCardGridState extends State<TableCardGrid> {
                                 text: widget.listOfTables?[index].category
                                         .toString() ??
                                     ''),
-                           
                           ],
                         ),
                         //add button here

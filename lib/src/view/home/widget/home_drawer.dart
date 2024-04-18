@@ -91,7 +91,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             return AlertDialog(
               title: CustomText(text: 'Create Table'),
               content: SizedBox(
-                height: 200.h,
+                height: 400.h,
                 child: Column(
                   children: [
                     CustomTextField(
@@ -120,35 +120,55 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         child: const Icon(
                           Icons.image,
                           size: 20,
-                        ) ,
+                        ),
                       ).addMargin(EdgeInsets.only(top: 40, bottom: 20)),
                     ),
-                    CustomButton(
-                      onTap: () {
-                       
+                    BlocBuilder<ImagePickerCubit, ImagePickerState>(
+                      builder: (context, state) {
+                        if (state is ImagePickerPicked) {
+                          return Image.file(
+                            state.myFile,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          );
+                        } else {
+                          return SizedBox();
+                        }
                       },
-                      text: 'Upload',
+                    ),
+                    Gap(10.h),
+                    BlocBuilder<ImagePickerCubit, ImagePickerState>(
+                      builder: (context, state) {
+                        return CustomButton(
+                          onTap: () async {
+                            if (state is ImagePickerPicked) {
+                              //
+                              await context
+                                  .read<ImagePickerCubit>()
+                                  .uploadImage(state.myFile)
+                                  .then((value) => context
+                                      .read<ItemsCubit>()
+                                      .createItems(
+                                          nameController.text.trim(),
+                                          categoriesController.text.trim(),
+                                          priceController.text
+                                              .trim()
+                                              .toString(),
+                                          value));
+                            }
+                            Navigator.pop(context);
+                          },
+                          text: 'Save',
+                          height: 50,
+                          width: 150,
+                          textColor: AppColor.white,
+                        );
+                      },
                     )
                   ],
                 ),
               ),
-              actions: [
-                CustomButton(
-                  onTap: () {
-                    //
-
-                    context.read<ItemsCubit>().createItems(
-                        nameController.text.trim(),
-                        categoriesController.text.trim(),
-                        priceController.text.trim().toString());
-                    Navigator.pop(context);
-                  },
-                  text: 'Save',
-                  height: 50,
-                  width: 150,
-                  textColor: AppColor.white,
-                )
-              ],
             );
           },
         );
