@@ -1,50 +1,60 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 part 'image_picker_state.dart';
 
 class ImagePickerCubit extends Cubit<ImagePickerState> {
   final ImagePicker picker = ImagePicker();
-
-  firebase_storage.FirebaseStorage myStorage =
+  final firebase_storage.FirebaseStorage myStorage =
       firebase_storage.FirebaseStorage.instance;
 
   ImagePickerCubit() : super(ImagePickerInitial());
 
-  Future pickImage() async {
+  Future<void> pickImage() async {
     try {
       final pickedFile = await picker.pickImage(
           source: ImageSource.gallery, imageQuality: 100);
       if (pickedFile != null) {
         emit(ImagePickerState(myFile: File(pickedFile.path)));
       } else {
-        print('no file selected');
+        emit(ImagePickerInitial());
+        if (kDebugMode) {
+          print('no file selected');
+        }
       }
-    } on Exception catch (e) {
-      return e;
+    } catch (e) {
+      emit(ImagePickerInitial());
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
     }
   }
 
-  Future uploadImage(File? file) async {
-    String filename = DateTime.now().microsecondsSinceEpoch.toString();
-
+  Future<String> uploadImage(File? file) async {
+    if (file == null) {
+      throw ArgumentError('File is null');
+    }
+    String filename = DateTime.now().millisecondsSinceEpoch.toString();
     try {
-      Reference reference = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('/foods/$filename');
+      firebase_storage.Reference reference =
+          myStorage.ref().child('foods/$filename.jpg');
 
-      await reference.putFile(file!.absolute);
+      await reference.putFile(file);
       String downloadUrl = await reference.getDownloadURL();
       return downloadUrl;
+    } on firebase_storage.FirebaseException catch (e) {
+      if (kDebugMode) {
+        print('Firebase storage error: $e');
+      }
+      rethrow;
     } catch (e) {
-      return '';
+      if (kDebugMode) {
+        print('Error uploading image: $e');
+      }
+      rethrow;
     }
-    // firebase_storage.Reference ref =
-    //     firebase_storage.FirebaseStorage.instance.ref('/myfolder' '+' '1234');
-    // firebase_storage.UploadTask uploadTask = ref.putFile(file!.absolute);
-    // await Future.value(uploadTask);
   }
 }
